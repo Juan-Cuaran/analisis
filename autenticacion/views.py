@@ -62,19 +62,15 @@ def login(request):
     return render(request, 'login.html', context)
 
 def logout(request):
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Método no permitido'}, status=405)
-
-    refresh_token = request.POST.get('refresh_token')
-    if not refresh_token:
-        return JsonResponse({'error': 'Refresh token es requerido'}, status=400)
-
-    try:
-        token = RefreshToken(refresh_token)
-        token.blacklist()
-        return JsonResponse({'message': 'Logout exitoso'})
-    except Exception:
-        return JsonResponse({'error': 'Error al hacer logout'}, status=400)
+    if request.method == 'POST':
+        refresh_token = request.POST.get('refresh_token')
+        if refresh_token:
+            try:
+                token = RefreshToken(refresh_token)
+                token.blacklist()
+            except Exception:
+                pass
+    return redirect('/api/auth/login/')
     
 
     

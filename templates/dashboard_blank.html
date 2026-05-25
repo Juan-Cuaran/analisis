@@ -15,14 +15,18 @@
                 <div>{{ username }}</div>
                 <div style="font-size: 12px; opacity: 0.8;">{{ role|title }}</div>
             </div>
-            <button class="logout-btn" onclick="location.href='/api/auth/logout/'">Cerrar sesion</button>
+            <form method="POST" action="/api/auth/logout/" style="display:inline">
+            {% csrf_token %}
+            <input type="hidden" name="refresh_token" value="{{ refresh_token }}">
+            <button type="submit" class="logout-btn">Cerrar sesión</button>
+        </form>
         </div>
     </header>
 
     <div class="dashboard-container">
         <div class="dashboard-main">
             <!-- Session Expiration Modal -->
-            <div class="session-modal" id="sessionModal">
+            <div class="session-modal hidden" id="sessionModal">
                 <div class="modal-content">
                     <div class="modal-icon">⚠️</div>
                     <h2>Tu sesión está a punto de expirar</h2>
@@ -171,7 +175,7 @@
                 document.getElementById('sessionModal').classList.remove('hidden');
                 // Actually log out after 60 more seconds
                 setTimeout(() => {
-                    location.href = '/api/auth/logout/';
+                    location.href = '/api/auth/login/';
                 }, 60000);
             }, 3540000); // 59 minutes
         }
