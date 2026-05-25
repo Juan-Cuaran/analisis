@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Panel Administrador{% endblock %} — Campus Virtual UCC</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-title">Campus Virtual UCC &mdash; Panel Administrador</div>
+        <div class="header-user">
+            <span>Gestor TI</span>
+            <button class="logout-btn" onclick="location.href='/api/auth/login/'">Cerrar sesión</button>
+        </div>
+    </header>
+
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <nav>
+                <a href="/api/panel_ti/politicas/?token={{ request.GET.token }}"
+                   class="{% if '/politicas/' in request.path %}active{% endif %}">Panel Principal</a>
+                <a href="/api/panel_ti/politicas/?token={{ request.GET.token }}"
+                   class="{% if '/politicas/' in request.path %}active{% endif %}">Políticas de Sesión</a>
+                <a href="#">Detección ML</a>
+                <a href="#">Usuarios</a>
+                <a href="/api/panel_ti/auditoria/?token={{ request.GET.token }}"
+                   class="{% if '/auditoria/' in request.path %}active{% endif %}">Logs del sistema</a>
+            </nav>
+        </aside>
+
+        <main class="admin-main">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>

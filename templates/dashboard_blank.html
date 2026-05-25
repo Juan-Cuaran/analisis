@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Virtual UCC - Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-title">Campus Virtual UCC</div>
+        <div class="header-user">
+            <div class="user-info">
+                <div>{{ username }}</div>
+                <div style="font-size: 12px; opacity: 0.8;">{{ role|title }}</div>
+            </div>
+            <button class="logout-btn" onclick="location.href='/api/auth/logout/'">Cerrar sesion</button>
+        </div>
+    </header>
+
+    <div class="dashboard-container">
+        <div class="dashboard-main">
+            <!-- Session Expiration Modal -->
+            <div class="session-modal" id="sessionModal">
+                <div class="modal-content">
+                    <div class="modal-icon">⚠️</div>
+                    <h2>Tu sesión está a punto de expirar</h2>
+                    <p>No hemos detectado interacción. ¿Deseas continuar?</p>
+                    <div class="session-timer" id="sessionTimer">0:59</div>
+                    <div class="modal-actions">
+                        <button class="btn-continue" onclick="continueSession()">Continuar sesion</button>
+                        <button class="btn-logout" onclick="location.href='/api/auth/logout/'">Cerrar sesion</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <h1>Bienvenido</h1>
+                <p>Tu sesión se ha iniciado correctamente</p>
+            </div>
+
+            <!-- Courses Section -->
+            <div class="dashboard-courses">
+                <h2>Mis Cursos</h2>
+                <div class="courses-list">
+                    <div class="course-card">
+                        <h3>Análisis de Software</h3>
+                        <p>Ingeniería de Software</p>
+                        <p>Docente: Prof. María García</p>
+                        <div class="course-info">
+                            <div class="course-info-item">
+                                <span>Calificación</span>
+                                <strong>85%</strong>
+                            </div>
+                            <div class="course-info-item">
+                                <span>Tareas</span>
+                                <strong>12</strong>
+                            </div>
+                            <div class="course-info-item">
+                                <span>Asistencia</span>
+                                <strong>92%</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="course-card">
+                        <h3>Diseño Web</h3>
+                        <p>Desarrollo Web</p>
+                        <p>Docente: Prof. Juan López</p>
+                        <div class="course-info">
+                            <div class="course-info-item">
+                                <span>Calificación</span>
+                                <strong>78%</strong>
+                            </div>
+                            <div class="course-info-item">
+                                <span>Tareas</span>
+                                <strong>8</strong>
+                            </div>
+                            <div class="course-info-item">
+                                <span>Asistencia</span>
+                                <strong>88%</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="course-card">
+                        <h3>Base de Datos</h3>
+                        <p>Bases de Datos</p>
+                        <p>Docente: Prof. Carlos Martínez</p>
+                        <div class="course-info">
+                            <div class="course-info-item">
+                                <span>Calificación</span>
+                                <strong>91%</strong>
+                            </div>
+                            <div class="course-info-item">
+                                <span>Tareas</span>
+                                <strong>10</strong>
+                            </div>
+                            <div class="course-info-item">
+                                <span>Asistencia</span>
+                                <strong>95%</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sessions List -->
+            <div class="sessions-list">
+                <h2>Mis Sesiones Recientes</h2>
+                <div class="session-item">
+                    <div class="session-item-info">
+                        <h4>Sesión Activa</h4>
+                        <p>Desde hace 15 minutos</p>
+                    </div>
+                    <div class="session-item-date">
+                        <strong style="color: var(--success);">ACTIVA</strong>
+                        <p>2026-05-24 10:30</p>
+                    </div>
+                </div>
+                <div class="session-item">
+                    <div class="session-item-info">
+                        <h4>Sesión Anterior</h4>
+                        <p>Duración: 1 hora 45 minutos</p>
+                    </div>
+                    <div class="session-item-date">
+                        <strong style="color: var(--text-light);">FINALIZADA</strong>
+                        <p>2026-05-23 14:20</p>
+                    </div>
+                </div>
+                <div class="session-item">
+                    <div class="session-item-info">
+                        <h4>Sesión del 22 de mayo</h4>
+                        <p>Duración: 2 horas 10 minutos</p>
+                    </div>
+                    <div class="session-item-date">
+                        <strong style="color: var(--text-light);">FINALIZADA</strong>
+                        <p>2026-05-22 09:15</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function continueSession() {
+            document.getElementById('sessionModal').classList.add('hidden');
+            // Reset session timer
+            startSessionTimer();
+        }
+
+        let sessionTimeout;
+        let sessionTimer;
+
+        function startSessionTimer() {
+            clearTimeout(sessionTimeout);
+            clearInterval(sessionTimer);
+            
+            let seconds = 59;
+            sessionTimer = setInterval(() => {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                document.getElementById('sessionTimer').textContent = 
+                    `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+                seconds--;
+            }, 1000);
+
+            sessionTimeout = setTimeout(() => {
+                document.getElementById('sessionModal').classList.remove('hidden');
+                // Actually log out after 60 more seconds
+                setTimeout(() => {
+                    location.href = '/api/auth/logout/';
+                }, 60000);
+            }, 3540000); // 59 minutes
+        }
+
+        // Start session timer on page load
+        document.addEventListener('DOMContentLoaded', startSessionTimer);
+        document.addEventListener('mousemove', startSessionTimer);
+        document.addEventListener('keypress', startSessionTimer);
+    </script>
+</body>
+</html>

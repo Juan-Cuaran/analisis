@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Virtual UCC - Registro</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/auth.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <h1>Registro de Usuario</h1>
+            <p class="subtitle">Crea tu cuenta para acceder al campus</p>
+
+            {% if errors %}
+                <div class="registration-errors">
+                    <p>Hay errores en el formulario:</p>
+                    <ul>
+                        {% for field, error_list in errors.items %}
+                            <li><strong>{{ field }}:</strong> {{ error_list|join:", " }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            {% if success %}
+                <div class="registration-success">
+                    {{ success }}
+                </div>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.as_p }}
+                </div>
+                <button type="submit">Registrar</button>
+            </form>
+
+            <div class="auth-links">
+                ¿Ya tienes una cuenta? <a href="/api/auth/login/">Inicia sesión aquí</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

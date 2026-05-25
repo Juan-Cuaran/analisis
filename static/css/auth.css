@@ -1,0 +1,126 @@
+/* Auth Forms - Login & Register */
+
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-blue) 100%);
+}
+
+.auth-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    padding: 40px;
+    width: 100%;
+    max-width: 450px;
+}
+
+.auth-card h1,
+.auth-card h2 {
+    color: var(--primary-dark);
+    margin-bottom: 10px;
+    font-size: 28px;
+}
+
+.auth-card .subtitle {
+    color: var(--text-light);
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+.auth-card .form-group {
+    margin-bottom: 20px;
+}
+
+.auth-card label {
+    color: var(--text-dark);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.auth-card input {
+    width: 100%;
+}
+
+.auth-card button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.auth-links {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.auth-links a {
+    color: var(--primary-blue);
+    font-weight: 500;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
+/* Success/Error Messages */
+.token-display {
+    background-color: #f5f5f5;
+    border: 1px solid var(--gray-border);
+    border-radius: 4px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.token-display label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-light);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.token-display textarea {
+    width: 100%;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    resize: vertical;
+    background-color: white;
+}
+
+/* Register specific */
+.registration-errors {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 20px;
+    color: #721c24;
+}
+
+.registration-errors p {
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.registration-errors ul {
+    margin-left: 20px;
+}
+
+.registration-errors li {
+    margin-bottom: 5px;
+}
+
+.registration-success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 20px;
+    color: #155724;
+    font-weight: 500;
+}

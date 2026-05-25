@@ -1,0 +1,92 @@
+{% extends "panel_ti/base_admin.html" %}
+
+{% block title %}Políticas de Sesión{% endblock %}
+
+{% block content %}
+<h1>Configuración de Políticas de Sesión</h1>
+
+{% if success %}
+<div class="alert alert-success">{{ success }}</div>
+{% endif %}
+
+<form id="politicaForm" method="POST" action="/api/panel_ti/politicas/actualizar/?token={{ request.GET.token }}">
+    {% csrf_token %}
+
+    <div class="policy-section">
+        <div class="form-group">
+            <label for="{{ form.limite_sesiones.id_for_label }}">Límite de sesiones simultáneas por usuario</label>
+            <div class="input-with-hint">
+                {{ form.limite_sesiones }}
+                <span class="field-hint">Min: 1 | Max: 5</span>
+            </div>
+            {% if form.limite_sesiones.errors %}
+            <div class="field-error">{{ form.limite_sesiones.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.tiempo_inactividad.id_for_label }}">Tiempo máximo de inactividad (minutos)</label>
+            <div class="input-with-hint">
+                {{ form.tiempo_inactividad }}
+                <span class="field-hint">Min: 1 | Max: 20</span>
+            </div>
+            {% if form.tiempo_inactividad.errors %}
+            <div class="field-error">{{ form.tiempo_inactividad.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.tiempo_expiracion.id_for_label }}">Tiempo de expiración del token (minutos)</label>
+            <div class="input-with-hint">
+                {{ form.tiempo_expiracion }}
+                <span class="field-hint">Min: 1 | Max: 10</span>
+            </div>
+            {% if form.tiempo_expiracion.errors %}
+            <div class="field-error">{{ form.tiempo_expiracion.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.tiempo_preservacion.id_for_label }}">Tiempo de preservación de sesión (minutos)</label>
+            <div class="input-with-hint">
+                {{ form.tiempo_preservacion }}
+                <span class="field-hint">Min: 1 | Max: 20</span>
+            </div>
+            {% if form.tiempo_preservacion.errors %}
+            <div class="field-error">{{ form.tiempo_preservacion.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger">{{ form.non_field_errors.0 }}</div>
+        {% endif %}
+    </div>
+
+    <div class="form-actions">
+        <button type="button" onclick="mostrarModal()">Guardar cambios</button>
+        <button type="button" class="btn-secondary"
+                onclick="location.href='/api/panel_ti/politicas/?token={{ request.GET.token }}'">Cancelar</button>
+    </div>
+</form>
+
+<!-- Modal de confirmación -->
+<div class="modal-overlay hidden" id="confirmModal">
+    <div class="modal-box">
+        <h2>Confirmar cambios</h2>
+        <p>¿Desea confirmar y aplicar los cambios realizados?</p>
+        <div class="modal-actions">
+            <button onclick="document.getElementById('politicaForm').submit()">Confirmar</button>
+            <button class="btn-secondary" onclick="ocultarModal()">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function mostrarModal() {
+    document.getElementById('confirmModal').classList.remove('hidden');
+}
+function ocultarModal() {
+    document.getElementById('confirmModal').classList.add('hidden');
+}
+</script>
+{% endblock %}
