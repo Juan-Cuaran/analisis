@@ -23,8 +23,8 @@
                 <td class="time">{{ auditoria.timestamp|date:"Y-m-d H:i:s" }}</td>
                 <td>{{ auditoria.usuario.username }}</td>
                 <td>{{ auditoria.acciones_modificads }}</td>
-                <td><span class="badge badge-danger">{{ auditoria.valor_anterior }}</span></td>
-                <td><span class="badge badge-success">{{ auditoria.valor_nuevo }}</span></td>
+                <td>{{ auditoria.valor_anterior }}</td>
+                <td>{{ auditoria.valor_nuevo }}</td>
             </tr>
             {% endfor %}
         </tbody>
